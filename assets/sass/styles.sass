@@ -1,0 +1,58 @@
+@import "compass"
+@import "compass/reset"
+@import "compass/css3/user-interface"
+
+$base-font-size: 16px
+$base-line-height: 24px
+
++establish-baseline
+
+$background: #fffffa
+
+$fonts: Helvetica Neue, Helvetica, Tahoma, Arial, "Microsoft YaHei New", "Microsoft Yahei", "微软雅黑", 宋体, SimSun, STXihei, "华文细黑", sans-serif
+
+.hidden
+  opacity: 0
+
+.show
+  opacity: 1
+  +transition-property(opacity)
+  +transition-duration(1s)
+
+*
+  +user-select(none)
+
+body
+  font-family: $fonts
+  text-align: center
+  -webkit-font-smoothing: antialiased
+
+h1
+  color: #111
+  +adjust-font-size-to($base-font-size*12)
+  padding-top: rhythm(0.25)
+
+input
+  +adjust-font-size-to($base-font-size*4)
+  margin: 0
+  padding: 0
+  +rhythm(0.5, 0, 0, 0.25)
+  -webkit-font-smoothing: antialiased
+  color: #222
+  font-family: $fonts
+  background: none
+  display: block
+  width: 100%
+  text-align: center
+  border: none
+  outline: none
+  font-weight: 200
+
+p
+  color: #333
+  +adjust-font-size-to($base-font-size*1.5)
+  display: inline-block
+  max-width: 24em
+  margin: auto
+  text-align: center
+  font-weight: 200

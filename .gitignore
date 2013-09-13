@@ -1,0 +1,40 @@
+### /home/devspotify/.gitignore-boilerplates/Compass.gitignore
+
+.sass-cache
+
+
+### /home/devspotify/.gitignore-boilerplates/Global/vim.gitignore
+
+*.s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
+
+### /home/devspotify/.gitignore-boilerplates/Global/Linux.gitignore
+
+.*
+!.gitignore
+*~
+
+
+### /home/devspotify/.gitignore-boilerplates/Node.gitignore
+
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+
+pids
+logs
+results
+
+npm-debug.log
+node_modules
+
+cedict
