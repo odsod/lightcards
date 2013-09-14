@@ -1,4 +1,16 @@
-(function(ko) {
+(function(ko, _) {
+
+  var Shuffler = function(list) {
+    this.list = list;
+    this.indices = [];
+  };
+
+  Shuffler.prototype.next = function() {
+    if (this.indices.length === 0) {
+      this.indices = _.shuffle(_.range(this.list.length));
+    }
+    return this.list[this.indices.pop()];
+  };
 
   var normalize = function(input) {
     return input.replace(/5| /g, '');
@@ -11,23 +23,18 @@
   var LightcardsViewModel = function(vocabulary) {
     var self = this;
 
-    this.vocabulary = vocabulary;
-
-    this.currentWordIndex = ko.observable(0);
     this.input = ko.observable('');
     this.showTranslation = ko.observable(false);
     this.animationToggle = ko.observable(true);
 
-    this.character = ko.computed(function() {
-      return vocabulary[self.currentWordIndex()].character;
-    });
+    this.vocabulary = new Shuffler(vocabulary);
+    this.currentWord = ko.observable(this.vocabulary.next());
 
-    this.pinyin = ko.computed(function() {
-      return vocabulary[self.currentWordIndex()].pinyin;
-    });
+    this.character = ko.computed(function() { return self.currentWord().character; });
+    this.pinyin = ko.computed(function() { return self.currentWord().pinyin; });
 
     this.translation = ko.computed(function() {
-      var translations = vocabulary[self.currentWordIndex()].translations,
+      var translations = self.currentWord().translations,
           selectedTranslations = [];
       for (var i = 0, totalLength = 0; i < translations.length && totalLength < 100; ++i) {
         selectedTranslations.push(translations[i]);
@@ -60,7 +67,7 @@
     this.animationToggle(false);
     setTimeout(function() {
       self.animationToggle(true);
-      self.currentWordIndex(self.currentWordIndex() + 1 % self.vocabulary.length);
+      self.currentWord(self.vocabulary.next());
     }, 1);
   };
 
@@ -76,4 +83,4 @@
 
   ko.applyBindings(viewModel);
 
-}(window.ko));
+}(window.ko, window._));
