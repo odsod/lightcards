@@ -7,7 +7,7 @@
 </head>
 <body>
 
-  <h1 data-bind="text: character"></h1>
+  <h1 class="animated" data-bind="text: character, css: { fadeInDown: animationToggle }"></h1>
   <input tabindex="1" autofocus data-bind="
     value: input, valueUpdate: 'afterkeydown', 
     event: { blur: handlers.blur, keyup: handlers.keyup }

@@ -16,6 +16,7 @@
     this.currentWordIndex = ko.observable(0);
     this.input = ko.observable('');
     this.showTranslation = ko.observable(false);
+    this.animationToggle = ko.observable(true);
 
     this.character = ko.computed(function() {
       return vocabulary[self.currentWordIndex()].character;
@@ -54,8 +55,13 @@
   };
 
   LightcardsViewModel.prototype.nextWord = function() {
-    this.currentWordIndex(this.currentWordIndex() + 1 % this.vocabulary.length);
+    var self = this;
     this.reset();
+    this.animationToggle(false);
+    setTimeout(function() {
+      self.animationToggle(true);
+      self.currentWordIndex(self.currentWordIndex() + 1 % self.vocabulary.length);
+    }, 1);
   };
 
   LightcardsViewModel.prototype.revealNext = function() {
