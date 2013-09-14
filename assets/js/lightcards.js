@@ -27,6 +27,12 @@
     this.showTranslation = ko.observable(false);
     this.animationToggle = ko.observable(true);
 
+    this.hits = ko.observable(0);
+    this.misses = ko.observable(0);
+    this.hitRate = ko.observable(function() {
+      return this.hits() / (this.hits() + this.misses());
+    });
+
     this.vocabulary = new Shuffler(vocabulary);
     this.currentWord = ko.observable(this.vocabulary.next());
 
@@ -53,7 +59,12 @@
   };
 
   LightcardsViewModel.prototype.checkInput = function() {
-    if (inputIsEqual(this.input(), this.pinyin())) { this.nextWord(); }
+    if (inputIsEqual(this.input(), this.pinyin())) {
+      this.nextWord();
+      this.hits(this.hits() + 1);
+    } else {
+      this.misses(this.misses() + 1);
+    }
   };
 
   LightcardsViewModel.prototype.reset = function() {
