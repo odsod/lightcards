@@ -12,16 +12,18 @@ $background: #fffffa
 
 $fonts: Helvetica Neue, Helvetica, Tahoma, Arial, "Microsoft YaHei New", "Microsoft Yahei", "微软雅黑", 宋体, SimSun, STXihei, "华文细黑", sans-serif
 
-ul
-  +adjust-font-size-to($base-font-size*1.2)
-  +horizontal-list(rhythm(0.25))
-  margin: rhytm(0.5) auto
-  display: inline-block
-  padding: rhythm(0.25) rhythm(0.5)
-  background: #333
-  color: #fffffa
-  border-radius: 2px
-  font-weight: 200
+.stats
+  +rhythm(1, 0, 0, 1)
+  text-align: center
+  ul
+    +adjust-font-size-to($base-font-size*1.2)
+    +horizontal-list(rhythm(0.25))
+    display: inline-block
+    padding: rhythm(0.25) rhythm(0.5)
+    background: #333
+    color: #fffffa
+    border-radius: 2px
+    font-weight: 200
 
 .hits::before
   content: '\2713: '

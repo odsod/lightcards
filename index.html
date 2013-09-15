@@ -7,10 +7,12 @@
 </head>
 <body>
 
-  <ul class="animated" style="opacity: 0" data-bind="css: { fadeInLeft: animationToggle }">
-    <li class="hits" data-bind="text: learnedCards().length"></li>
-    <li class="hit-rate" data-bind="text: learnedRate"></li>
-  </ul>
+  <div class="stats">
+    <ul class="animated" style="opacity: 0" data-bind="css: { fadeInLeft: animationToggle }">
+      <li class="hits" data-bind="text: learnedCards().length"></li>
+      <li class="hit-rate" data-bind="text: learnedRate"></li>
+    </ul>
+  </div>
 
   <h1 class="animated" data-bind="text: currentCard().glyph, css: { fadeInDown: animationToggle }"></h1>
   <input tabindex="1" autofocus data-bind="
