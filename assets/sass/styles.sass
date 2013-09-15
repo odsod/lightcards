@@ -13,28 +13,21 @@ $background: #fffffa
 $fonts: Helvetica Neue, Helvetica, Tahoma, Arial, "Microsoft YaHei New", "Microsoft Yahei", "微软雅黑", 宋体, SimSun, STXihei, "华文细黑", sans-serif
 
 ul
+  +adjust-font-size-to($base-font-size*1.2)
   +horizontal-list(rhythm(0.25))
-  margin-top: rhythm(0.5)
-  margin-left: auto
-  margin-right: auto
+  margin: rhytm(0.5) auto
   display: inline-block
   padding: rhythm(0.25) rhythm(0.5)
   background: #333
   color: #fffffa
+  border-radius: 2px
+  font-weight: 200
 
 .hits::before
   content: '\2713: '
 
 .hit-rate::after
   content: '%'
-
-.hidden
-  opacity: 0
-
-.show
-  opacity: 1
-  +transition-property(opacity)
-  +transition-duration(1s)
 
 *
   +user-select(none)
@@ -48,7 +41,6 @@ body
 h1
   color: #111
   +adjust-font-size-to($base-font-size*12)
-  padding-top: rhythm(0.25)
 
 input
   +adjust-font-size-to($base-font-size*4)
