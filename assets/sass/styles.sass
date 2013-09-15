@@ -12,6 +12,22 @@ $background: #fffffa
 
 $fonts: Helvetica Neue, Helvetica, Tahoma, Arial, "Microsoft YaHei New", "Microsoft Yahei", "微软雅黑", 宋体, SimSun, STXihei, "华文细黑", sans-serif
 
+ul
+  +horizontal-list(rhythm(0.25))
+  margin-top: rhythm(0.5)
+  margin-left: auto
+  margin-right: auto
+  display: inline-block
+  padding: rhythm(0.25) rhythm(0.5)
+  background: #333
+  color: #fffffa
+
+.hits::before
+  content: '\2713: '
+
+.hit-rate::after
+  content: '%'
+
 .hidden
   opacity: 0
 

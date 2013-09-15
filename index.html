@@ -7,16 +7,22 @@
 </head>
 <body>
 
-  <h1 class="animated" data-bind="text: character, css: { fadeInDown: animationToggle }"></h1>
+  <ul>
+    <li class="hits" data-bind="text: learnedCards().length"></li>
+    <li class="hit-rate" data-bind="text: learnedRate"></li>
+  </ul>
+
+  <h1 class="animated" data-bind="text: currentCard().glyph, css: { fadeInDown: animationToggle }"></h1>
   <input tabindex="1" autofocus data-bind="
     value: input, valueUpdate: 'afterkeydown', 
     event: { blur: handlers.blur, keyup: handlers.keyup }
   " autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-  <p class="hidden" data-bind="text: translation, css: { show: showTranslation }"></p>
+  <p class="hidden" data-bind="text: currentCard().translation, css: { show: showTranslation }"></p>
 
   <script src="assets/js/knockout-2.3.0.js"></script>
   <script src="assets/js/underscore.js"></script>
-  <script src="assets/js/vocabulary.js"></script>
+
+  <script src="assets/js/cards.js"></script>
   <script src="assets/js/lightcards.js"></script>
 </body>
 </html>

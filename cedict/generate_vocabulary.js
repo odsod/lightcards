@@ -1,7 +1,7 @@
 var fs = require('fs'),
     _ = require('underscore');
 
-var vocabulary = fs.readFileSync(process.argv[3], 'utf-8').trim().split('\n');
+var vocabulary = fs.readFileSync(process.argv[3], 'utf-8').trim().split('\n').map(function(c) { return c.trim(); });
 
 var makeDict = function(list) {
   var result = {};
@@ -18,21 +18,23 @@ var makeDict = function(list) {
   return result;
 };
 
-var cedict = fs.readFileSync(process.argv[2], 'utf-8').trim().split('\n').map(function(row) {
-  var matches = /^(.+?) \[(.+?)\] \/(.+?)\/$/.exec(row);
-  return [matches[1], {
-    pinyin: matches[2],
-    translations: matches[3].split('/').filter(function(translation) {
+var cedict = fs.readFileSync(process.argv[2], 'utf-8').trim().split('\n').slice(59);
+
+cedict = cedict.map(function(row) {
+  var matches = /^(.+?) (.+?) \[(.+?)\] \/(.+?)\/$/.exec(row.trim());
+  return [matches[2], {
+    transcription: matches[3],
+    translation: matches[4].split('/').filter(function(translation) {
       return !(translation[0] === 'C' && translation[1] === 'L');
-    })
+    }).join(' - ')
   }];
 });
 
 cedict = makeDict(cedict);
 
 vocabulary = _.chain(cedict).pick(vocabulary).pairs().map(function(pair) {
-  pair[1].character = pair[0];
+  pair[1].glyph = pair[0];
   return pair[1];
 }).value();
 
-fs.writeFileSync(process.argv[4], 'window.vocabulary = ' + JSON.stringify(vocabulary) + ';');
+fs.writeFileSync(process.argv[4], 'window.cards = ' + JSON.stringify(vocabulary) + ';');

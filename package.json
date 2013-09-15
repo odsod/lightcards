@@ -10,7 +10,6 @@
   "author": "",
   "license": "BSD",
   "dependencies": {
-    "underscore": "~1.5.2",
-    "hanzi": "~0.4.1"
+    "underscore": "~1.5.2"
   }
 }
