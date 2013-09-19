@@ -2,6 +2,7 @@
 // vi: ft=javascript
 
 var program = require('commander'),
+    path = require('path'),
     pkg = require('../package.json');
 
 // Parse arguments
