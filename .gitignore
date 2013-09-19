@@ -11,7 +11,6 @@ Session.vim
 .netrwhist
 *~
 
-
 ### /home/devspotify/.gitignore-boilerplates/Global/Linux.gitignore
 
 .*
@@ -41,3 +40,4 @@ cedict_1_0_ts_utf-8_mdbg.zip
 cedict_ts.u8
 
 css
+cedict.js
