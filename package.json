@@ -10,6 +10,14 @@
   "author": "",
   "license": "BSD",
   "dependencies": {
-    "underscore": "~1.5.2"
+    "underscore": "~1.5.2",
+    "express": "~3.4.0",
+    "knockout": "~2.3.0",
+    "commander": "~2.0.0",
+    "browserify": "~2.31.0",
+    "uglify-js": "~2.4.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1"
   }
 }
