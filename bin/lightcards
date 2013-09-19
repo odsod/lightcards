@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+// vi: ft=javascript
+
+var program = require('commander'),
+    pkg = require('../package.json');
+
+// Parse arguments
+program
+  .version(pkg.version)
+  .usage('[vocabulary]')
+  .parse(process.argv);
+var vocabularyFile = program.args.shift();
+
+// Build javascript bundle
+var bundle = require('../bundle.js');
+bundle.init({ vocabularyFile: vocabularyFile });
+
+// Serve javascript bundle
+var server = require('../server.js');
+server.serveBundle(bundle);
