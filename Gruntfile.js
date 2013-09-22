@@ -51,7 +51,21 @@ module.exports = function(grunt) {
         dict[key] = value;
       }
     }
-    fs.writeFileSync(this.target, 'module.exports = ' + JSON.stringify(dict) + ';');
+
+    var vocabularyGenerator = function(cedict) {
+      return function(vocabulary) {
+        var _ = require('underscore');
+        vocabulary = vocabulary.trim().split('\n').map(function(line) {
+          return line.trim();
+        });
+        return _.chain(cedict).pick(vocabulary).pairs().map(function(pair) {
+          pair[1].glyph = pair[0];
+          return pair[1];
+        }).value();
+      };
+    };
+
+    fs.writeFileSync(this.target, 'module.exports = (' + vocabularyGenerator.toString() + '(' + JSON.stringify(dict) + '));');
   });
 
   grunt.registerTask('default', ['compass']);

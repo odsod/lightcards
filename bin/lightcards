@@ -13,7 +13,7 @@ program
 var fs = require('fs'),
     vocabularyFile = program.args.shift(),
     vocabulary = fs.readFileSync(vocabularyFile, 'utf-8'),
-    cards = require('../card-generator.js').generateCardsFromVocabulary(vocabulary);
+    cards = require('../cedict.js')(vocabulary);
 
 // Build javascript bundle
 var path = require('path');
