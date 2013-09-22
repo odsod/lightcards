@@ -1,21 +1,33 @@
 #!/usr/bin/env node
 // vi: ft=javascript
 
-var program = require('commander'),
-    path = require('path'),
-    pkg = require('../package.json');
-
 // Parse arguments
+var program = require('commander'),
+    pkg = require('../package.json');
 program
   .version(pkg.version)
   .usage('[vocabulary]')
   .parse(process.argv);
-var vocabularyFile = program.args.shift();
+
+// Generate flash cards
+var fs = require('fs'),
+    vocabularyFile = program.args.shift(),
+    vocabulary = fs.readFileSync(vocabularyFile, 'utf-8'),
+    cards = require('../card-generator.js').generateCardsFromVocabulary(vocabulary);
 
 // Build javascript bundle
-var bundle = require('../bundle.js');
-bundle.init({ vocabularyFile: vocabularyFile });
-
-// Serve javascript bundle
-var server = require('../server.js');
-server.serveBundle(bundle);
+var path = require('path');
+require('browserify')(path.join(__dirname, '../lightcards/main.js')).bundle({
+  insertGlobalVars: { cards: function() { return JSON.stringify(cards); } }
+}, function(err, bundle) {
+  
+  // Start server
+  var express = require('express'),
+      app = express();
+  app.set('port', process.env.PORT || 3000);
+  app.use(express.static(path.join(__dirname, '../assets')));
+  app.get('/script.js', function(req, res) { res.end(bundle); });
+  require('http').createServer(app).listen(app.get('port'), function() {
+    console.log('Start learning on port ' + app.get('port'));
+  });
+});
