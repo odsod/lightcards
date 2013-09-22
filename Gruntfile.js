@@ -3,7 +3,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    cedict: { 'cedict.js': './assets/cedict/cedict_ts.u8' },
+    cedict: { 'cedict.js': 'cedict_ts.u8' },
 
     compass: {
       dist: {
