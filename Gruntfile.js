@@ -27,5 +27,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('default', ['compass']);
+  grunt.registerTask('default', ['cedict', 'compass']);
 };
