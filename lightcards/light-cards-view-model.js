@@ -9,6 +9,7 @@ var LightCardsViewModel = exports.LightCardsViewModel = function(cards) {
   this.shuffledCards = new Shuffler(cards);
   this.currentCard = ko.observable(this.shuffledCards.next());
   this.learnedCards = ko.observableArray();
+  this.userHasAnsweredIncorrectly = ko.observable();
 
   this.learnedRate = ko.computed(function() {
     return Math.round(self.learnedCards().length / self.cards.length * 100);
@@ -30,6 +31,7 @@ var LightCardsViewModel = exports.LightCardsViewModel = function(cards) {
 LightCardsViewModel.prototype.reset = function() {
   this.showTranslation(false);
   this.input(null);
+  this.userHasAnsweredIncorrectly(false);
 };
 
 LightCardsViewModel.prototype.normalizeAnswer = function(answer) {
@@ -59,10 +61,13 @@ LightCardsViewModel.prototype.checkAnswer = function(answer) {
   var isCorrect = this.normalizeAnswer(answer) ===
                   this.normalizeAnswer(this.currentCard().transcription);
   if (isCorrect) {
-    this.markLearned(this.currentCard());
+    if (!this.userHasAnsweredIncorrectly()) {
+      this.markLearned(this.currentCard());
+    }
     this.nextCard();
   } else {
     this.markNotLearned(this.currentCard());
+    this.userHasAnsweredIncorrectly(true);
   }
 };
 
