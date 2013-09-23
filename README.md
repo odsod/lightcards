@@ -3,8 +3,13 @@ lightcards
 
 <img align="center" src="http://odsod.github.io/lightcards/preview.png">
 
-`lightcards` is a flash card software for learning Chinese characters. It is
-designed to be lightweight and minimalistic.
+`lightcards` is a flash card software for learning Chinese characters. 
+
+It is designed with the Unix philosophy in mind. Edit your
+vocabulary using Sublime, Notepad, or whatever software you like.
+
+I use Google Docs, so I can edit my vocabulary when I'm on the go. When I have
+updated my vocabulary, I wget it to stdout and pipe it into `lightcards`.
 
 Getting started
 ---------------
@@ -51,25 +56,13 @@ it create it for you.
 
 Have fun!
 
-FAQ
----
-
-__Q:__ Does the world really need more flash card software?<br>
-__A__: Not really no.
-
-__Q__: Why "for hackers"?<br>
-__A__: `lightcards` is designed with the Unix philosophy in mind. Edit your
-vocabulary using whatever software you like, Sublime, Notepad, etc. I use
-Google Docs, so I can edit my vocabulary on my handheld.
-
-Also, it's published under the MIT license. Fork it and hack
-away!
-
 Todo
 ----
 
-* Add a watcher that handles updates to the vocabulary file.
-* Add visual hint that `↓`-key reveals translation / input.
+* Add a watcher that handles updates to the vocabulary file
+* Add visual hint that `↓`-key reveals translation / input
+* Keep track of state between sessions using a local file
+* Randomize cards using a spaced repetition algorithm
 * Improve translations by handling multiple transcriptions of the same
-  character.
-* Verify Windows compatibility.
+  character
+* Verify Windows compatibility
