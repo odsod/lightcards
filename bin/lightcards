@@ -1,33 +1,53 @@
 #!/usr/bin/env node
 // vi: ft=javascript
 
-// Parse arguments
-var program = require('commander'),
+require('colors');
+
+var fs = require('fs'),
+    path = require('path'),
+    program = require('commander'),
     pkg = require('../package.json');
+
 program
   .version(pkg.version)
-  .usage('[vocabulary]')
-  .parse(process.argv);
+  .usage('[vocabulary]');
 
-// Generate flash cards
-var fs = require('fs'),
-    vocabularyFile = program.args.shift(),
-    vocabulary = fs.readFileSync(vocabularyFile, 'utf-8'),
+program.on('--help', function() {
+  console.log('  Examples:');
+  console.log('');
+  console.log('    $ lightcards ./path/to/vocabulary.txt  use own vocabulary');
+  console.log('    $ lightcards                           use default vocabulary');
+});
+  
+program.parse(process.argv);
+
+var vocabularyFile = program.args.shift();
+
+if (fs.existsSync(vocabularyFile)) {
+  process.stdout.write('Reading arguments... ' + 'OK!\n'.green);
+} else {
+  program.help();
+}
+
+process.stdout.write('Generating flashcards from ' + path.normalize(vocabularyFile) + '...');
+var vocabulary = fs.readFileSync(vocabularyFile, 'utf-8'),
     cards = require('../cedict.js')(vocabulary);
+process.stdout.write(' OK!\n'.green);
 
-// Build javascript bundle
-var path = require('path');
+process.stdout.write('Compiling JS...');
 require('browserify')(path.join(__dirname, '../lightcards/main.js')).bundle({
   insertGlobalVars: { cards: function() { return JSON.stringify(cards); } }
 }, function(err, bundle) {
+  process.stdout.write(' OK!\n'.green);
   
-  // Start server
+  process.stdout.write('Starting local web server...');
   var express = require('express'),
       app = express();
   app.set('port', process.env.PORT || 3000);
   app.use(express.static(path.join(__dirname, '../assets')));
   app.get('/script.js', function(req, res) { res.end(bundle); });
   require('http').createServer(app).listen(app.get('port'), function() {
-    console.log('Start learning on port ' + app.get('port'));
+    process.stdout.write(' OK!\n'.green);
+    console.log('Start learning on ' + ('http://localhost:' + app.get('port')).cyan);
   });
 });

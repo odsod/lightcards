@@ -15,7 +15,8 @@
     "express": "~3.4.0",
     "knockout": "~2.3.0",
     "commander": "~2.0.0",
-    "browserify": "~2.31.0"
+    "browserify": "~2.31.0",
+    "colors": "~0.6.2"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
