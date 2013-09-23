@@ -51,6 +51,20 @@ it create it for you.
 
 Have fun!
 
+FAQ
+---
+
+__Q:__ Does the world really need more flash card software?<br>
+__A__: Not really no.
+
+__Q__: What do you mean by "for hackers"?<br>
+__A__: `lightcards` is designed with the Unix philosophy in mind. Edit your
+vocabulary using whatever software you like, Sublime, Notepad, etc. I use
+Google Docs, so I can edit my vocabulary on my handheld.
+
+Also, it's published under the MIT license, so fork it and hack
+away!
+
 Todo
 ----
 
