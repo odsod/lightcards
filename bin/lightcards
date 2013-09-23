@@ -77,7 +77,7 @@ require('async').waterfall([
   if (err) {
     process.stdout.write('ERROR!\n'.red);
   } else {
-    process.stdout.write(' OK!\n'.green);
+    process.stdout.write(' OK!\n\n'.green);
     process.stdout.write('Start learning on ' + ('http://localhost:' + program.port).cyan);
   }
 });
