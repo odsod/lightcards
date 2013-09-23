@@ -35,7 +35,11 @@ LightCardsViewModel.prototype.reset = function() {
 };
 
 LightCardsViewModel.prototype.normalizeAnswer = function(answer) {
-  return answer.replace(/5| /g, '').toLowerCase();
+  return answer
+    .replace(/5/g, '')
+    .replace(/\s+/g, '')
+    .replace(/u:/g, 'v')
+    .toLowerCase();
 };
 
 LightCardsViewModel.prototype.markLearned = function(card) {
@@ -72,6 +76,7 @@ LightCardsViewModel.prototype.checkAnswer = function(answer) {
 };
 
 LightCardsViewModel.prototype.showHelp = function() {
+  this.userHasAnsweredIncorrectly(true);
   this.markNotLearned(this.currentCard());
   if (!this.showTranslation()) { this.showTranslation(true);
   } else { this.input(this.currentCard().transcription); }
