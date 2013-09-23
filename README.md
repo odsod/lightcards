@@ -59,10 +59,10 @@ Have fun!
 Todo
 ----
 
-* Add a watcher that handles updates to the vocabulary file
 * Add visual hint that `↓`-key reveals translation / input
 * Keep track of state between sessions using a local file
 * Randomize cards using a spaced repetition algorithm
+* Add support for pronounciation mp3:s
 * Improve translations by handling multiple transcriptions of the same
   character
 * Verify Windows compatibility
