@@ -3,7 +3,7 @@ module.exports = function(grunt) {
   var parseCedictRow = function(row) {
     var matches = /^(.+?) (.+?) \[(.+?)\] \/(.+?)\/$/.exec(row.trim());
     return [matches[2], {
-      transcription: matches[3],
+      transcription: matches[3].toLowerCase(),
       translation: matches[4].split('/').filter(function(translation) {
         return !(translation[0] === 'C' && translation[1] === 'L');
       }).join(' - ')
