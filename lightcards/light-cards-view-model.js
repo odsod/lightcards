@@ -35,7 +35,7 @@ LightCardsViewModel.prototype.reset = function() {
 };
 
 LightCardsViewModel.prototype.normalizeAnswer = function(answer) {
-  return answer.replace(/5| /g, '');
+  return answer.replace(/5| /g, '').toLowerCase();
 };
 
 LightCardsViewModel.prototype.markLearned = function(card) {
