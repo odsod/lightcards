@@ -17,6 +17,7 @@ var LightCardsViewModel = exports.LightCardsViewModel = function(cards) {
 
   this.input = ko.observable('');
   this.showTranslation = ko.observable(false);
+  this.showTranscription = ko.observable(false);
   this.animationToggle = ko.observable(true);
 
   this.handlers = {
@@ -30,6 +31,7 @@ var LightCardsViewModel = exports.LightCardsViewModel = function(cards) {
 
 LightCardsViewModel.prototype.reset = function() {
   this.showTranslation(false);
+  this.showTranscription(false);
   this.input(null);
   this.userHasAnsweredIncorrectly(false);
 };
@@ -78,6 +80,10 @@ LightCardsViewModel.prototype.checkAnswer = function(answer) {
 LightCardsViewModel.prototype.showHelp = function() {
   this.userHasAnsweredIncorrectly(true);
   this.markNotLearned(this.currentCard());
-  if (!this.showTranslation()) { this.showTranslation(true);
-  } else { this.input(this.currentCard().transcription); }
+  if (!this.showTranslation()) {
+    this.showTranslation(true);
+  } else {
+    this.showTranscription(true);
+    this.input('');
+  }
 };

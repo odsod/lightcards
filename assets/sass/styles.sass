@@ -1,7 +1,9 @@
 @import "compass"
 @import "compass/reset"
 @import "compass/css3/user-interface"
-@import "animate"
+
+@import "_animate"
+@import "animation"
 
 $base-font-size: 16px
 $base-line-height: 24px
@@ -59,6 +61,13 @@ input
   border: none
   outline: none
   font-weight: 200
+  +input-placeholder("&")
+    color: $background
+  &.test
+    +input-placeholder("&")
+      color: #ccc
+      +transition-property(color)
+      +transition-duration(1s)
 
 p
   color: #333
@@ -68,3 +77,5 @@ p
   margin: auto
   text-align: center
   font-weight: 200
+  padding-left: rhythm(1)
+  padding-right: rhythm(1)
