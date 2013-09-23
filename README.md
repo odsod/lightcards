@@ -62,7 +62,7 @@ __A__: `lightcards` is designed with the Unix philosophy in mind. Edit your
 vocabulary using whatever software you like, Sublime, Notepad, etc. I use
 Google Docs, so I can edit my vocabulary on my handheld.
 
-Also, it's published under the MIT license, so fork it and hack
+Also, it's published under the MIT license. Fork it and hack
 away!
 
 Todo
