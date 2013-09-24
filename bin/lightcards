@@ -56,7 +56,7 @@ require('async').waterfall([
   function(vocabulary, callback) {
     process.stdout.write(' OK!\n'.green);
     process.stdout.write('Generating flashcards...');
-    var cards = require('../cedict.js')(vocabulary);
+    var cards = require('../vocabulary.js').parse(vocabulary);
     process.stdout.write(' OK!\n'.green);
     process.stdout.write('Compiling scripts...');
     require('browserify')(path.join(__dirname, '../lightcards/main.js')).bundle({

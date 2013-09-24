@@ -57,7 +57,7 @@ LightCardsViewModel.prototype.nextCard = function() {
 };
 
 LightCardsViewModel.prototype.checkAnswer = function(answer) {
-  var isCorrect = pinyin.normalize(answer) === pinyin.normalize(this.currentCard().transcription);
+  var isCorrect = pinyin.normalize(answer) === pinyin.normalize(this.currentCard().pinyin);
   if (isCorrect) {
     if (!this.userHasAnsweredIncorrectly()) {
       this.markLearned(this.currentCard());

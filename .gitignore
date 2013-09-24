@@ -36,9 +36,6 @@ results
 npm-debug.log
 node_modules
 
-cedict_1_0_ts_utf-8_mdbg.zip
-cedict_ts.u8
-
 css
-cedict.js
 vocabulary.txt
+!.npmignore

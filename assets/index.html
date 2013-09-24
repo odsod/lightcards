@@ -15,11 +15,11 @@
     </ul>
   </div>
 
-  <h1 class="animated" data-bind="text: currentCard().glyph, css: { fadeInDown: animationToggle }"></h1>
+  <h1 class="animated" data-bind="text: currentCard().hanzi, css: { fadeInDown: animationToggle }"></h1>
   <input tabindex="1" autofocus data-bind="
     value: input, valueUpdate: 'afterkeydown', 
     event: { blur: handlers.blur, keyup: handlers.keyup },
-    attr: { placeholder: currentCard().transcription },
+    attr: { placeholder: currentCard().pinyin },
     css: { test: showTranscription }
   " autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   <p class="hidden" data-bind="text: currentCard().translation, css: { show: showTranslation }"></p>
