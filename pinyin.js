@@ -1,5 +1,3 @@
-var _ = require('lodash');
-
 // http://stackoverflow.com/questions/1598856/convert-numbered-to-accentuated-pinyin
 
 var numToMark = {
