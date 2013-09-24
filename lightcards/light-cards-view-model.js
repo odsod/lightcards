@@ -1,5 +1,6 @@
 var ko = require('knockout'),
     _ = require('underscore'),
+    pinyin = require('pinyin'),
     Shuffler = require('./shuffler').Shuffler;
 
 var LightCardsViewModel = exports.LightCardsViewModel = function(cards) {
@@ -36,14 +37,6 @@ LightCardsViewModel.prototype.reset = function() {
   this.userHasAnsweredIncorrectly(false);
 };
 
-LightCardsViewModel.prototype.normalizeAnswer = function(answer) {
-  return answer
-    .replace(/5/g, '')
-    .replace(/\s+/g, '')
-    .replace(/u:/g, 'v')
-    .toLowerCase();
-};
-
 LightCardsViewModel.prototype.markLearned = function(card) {
   this.learnedCards.push(card);
   this.learnedCards(_.unique(this.learnedCards()));
@@ -64,8 +57,7 @@ LightCardsViewModel.prototype.nextCard = function() {
 };
 
 LightCardsViewModel.prototype.checkAnswer = function(answer) {
-  var isCorrect = this.normalizeAnswer(answer) ===
-                  this.normalizeAnswer(this.currentCard().transcription);
+  var isCorrect = pinyin.normalize(answer) === pinyin.normalize(this.currentCard().transcription);
   if (isCorrect) {
     if (!this.userHasAnsweredIncorrectly()) {
       this.markLearned(this.currentCard());
