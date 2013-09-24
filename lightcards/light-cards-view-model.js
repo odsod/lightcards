@@ -1,6 +1,6 @@
 var ko = require('knockout'),
     _ = require('underscore'),
-    pinyin = require('pinyin'),
+    pinyin = require('../pinyin.js'),
     Shuffler = require('./shuffler').Shuffler;
 
 var LightCardsViewModel = exports.LightCardsViewModel = function(cards) {

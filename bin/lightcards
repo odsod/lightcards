@@ -74,7 +74,9 @@ require('async').waterfall([
       .on('error', function(err) {
         process.stdout.write(' ERROR!\n\n'.red);
         if (err.code === 'EADDRINUSE') {
-          console.log('Port ' + (program.port + '').cyan + ' already in use');
+          console.log('Error: Port ' + (program.port + '').cyan + ' already in use');
+        } else {
+          console.log(err.toString());
         }
         process.exit(1);
       })
@@ -82,7 +84,8 @@ require('async').waterfall([
   }
 ], function(err) {
   if (err) {
-    process.stdout.write('ERROR!\n'.red);
+    process.stdout.write(' ERROR!\n\n'.red);
+    console.log(err.toString());
   } else {
     process.stdout.write(' OK!\n\n'.green);
     process.stdout.write('Start learning on ' + ('http://localhost:' + program.port).cyan);
