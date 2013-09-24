@@ -70,7 +70,15 @@ require('async').waterfall([
     app.use(express.static(path.join(__dirname, '../assets')));
     app.use(express.favicon(path.join(__dirname, '../assets/favicon.ico')));
     app.get('/script.js', function(req, res) { res.end(bundle); });
-    require('http').createServer(app).listen(program.port, callback);
+    require('http').createServer(app)
+      .on('error', function(err) {
+        process.stdout.write(' ERROR!\n\n'.red);
+        if (err.code === 'EADDRINUSE') {
+          console.log('Port ' + (program.port + '').cyan + ' already in use');
+        }
+        process.exit(1);
+      })
+      .listen(program.port, callback);
   }
 ], function(err) {
   if (err) {
