@@ -61,7 +61,10 @@ require('async').waterfall([
     process.stdout.write('Generated ' + (cards.length + '').cyan + ' cards\n');
     process.stdout.write('Compiling scripts...');
     require('browserify')(path.join(__dirname, '../lightcards/main.js')).bundle({
-      insertGlobalVars: { cards: function() { return JSON.stringify(cards); } }
+      insertGlobalVars: {
+        flashcards: function() { return JSON.stringify(cards); },
+        hasAudio: function() { return fs.existsSync(path.join(__dirname, '../assets/audio')); }
+      }
     }, callback);
   },
   function(bundle, callback) {

@@ -3,10 +3,11 @@ var ko = require('knockout'),
     pinyin = require('../pinyin.js'),
     Shuffler = require('./shuffler').Shuffler;
 
-var LightCardsViewModel = exports.LightCardsViewModel = function(model) {
+var LightCardsViewModel = exports.LightCardsViewModel = function(model, options) {
   var self = this;
 
   this.model = model;
+  this.hasAudio = options.hasAudio;
   this.currentFlashcard = ko.computed(model.currentFlashcard);
   this.amountLearned = ko.computed(model.amountLearned);
   this.percentageLearned = ko.computed(model.percentageLearned);
@@ -20,6 +21,16 @@ var LightCardsViewModel = exports.LightCardsViewModel = function(model) {
 
   this.handlers = {
     blur: function(_, e) { setTimeout(function() { e.target.focus(); }, 1); },
+    click: function(_, e) {
+      if (self.hasAudio) {
+        var hanzi = ko.dataFor(e.target);
+        var pinyin = self.currentFlashcard().pinyin.split(/\s/);
+        var index = self.currentFlashcard().hanzi.indexOf(hanzi);
+        var key = pinyin[index].toLowerCase();
+        console.log(key);
+        new Audio('audio/' + key + '.mp3').play();
+      }
+    },
     keyup: function(_, e) {
       if (e.keyCode === 13) { this.model.checkAnswer(this.input());
       } else if (e.keyCode === 40) { self.showHelp(); }

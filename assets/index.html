@@ -15,7 +15,9 @@
     </ul>
   </div>
 
-  <h1 class="animated" data-bind="text: currentFlashcard().hanzi, css: { fadeInDown: animationToggle }"></h1>
+  <h1 class="animated" data-bind="foreach: currentFlashcard().hanzi, css: { fadeInDown: animationToggle }">
+    <span data-bind="text: $data, click: $root.handlers.click"></span>
+  </h1>
   <input tabindex="1" autofocus data-bind="
     value: input, valueUpdate: 'afterkeydown', 
     event: { blur: handlers.blur, keyup: handlers.keyup },
