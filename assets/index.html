@@ -10,19 +10,19 @@
 
   <div class="stats">
     <ul class="animated" style="opacity: 0" data-bind="css: { fadeInLeft: animationToggle }">
-      <li class="hits" data-bind="text: learnedCards().length"></li>
-      <li class="hit-rate" data-bind="text: learnedRate"></li>
+      <li class="hits" data-bind="text: amountLearned"></li>
+      <li class="hit-rate" data-bind="text: percentageLearned"></li>
     </ul>
   </div>
 
-  <h1 class="animated" data-bind="text: currentCard().hanzi, css: { fadeInDown: animationToggle }"></h1>
+  <h1 class="animated" data-bind="text: currentFlashcard().hanzi, css: { fadeInDown: animationToggle }"></h1>
   <input tabindex="1" autofocus data-bind="
     value: input, valueUpdate: 'afterkeydown', 
     event: { blur: handlers.blur, keyup: handlers.keyup },
-    attr: { placeholder: currentCard().pinyin },
+    attr: { placeholder: currentFlashcard().pinyin },
     css: { test: showTranscription }
   " autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-  <p class="hidden" data-bind="text: currentCard().translation, css: { show: showTranslation }"></p>
+  <p class="hidden" data-bind="text: currentFlashcard().translation, css: { show: showTranslation }"></p>
 
   <script src="script.js"></script>
 </body>

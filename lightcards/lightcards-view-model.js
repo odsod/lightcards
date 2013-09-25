@@ -3,18 +3,13 @@ var ko = require('knockout'),
     pinyin = require('../pinyin.js'),
     Shuffler = require('./shuffler').Shuffler;
 
-var LightCardsViewModel = exports.LightCardsViewModel = function(cards) {
+var LightCardsViewModel = exports.LightCardsViewModel = function(model) {
   var self = this;
 
-  this.cards = cards;
-  this.shuffledCards = new Shuffler(cards);
-  this.currentCard = ko.observable(this.shuffledCards.next());
-  this.learnedCards = ko.observableArray();
-  this.userHasAnsweredIncorrectly = ko.observable();
-
-  this.learnedRate = ko.computed(function() {
-    return Math.round(self.learnedCards().length / self.cards.length * 100);
-  });
+  this.model = model;
+  this.currentFlashcard = ko.computed(model.currentFlashcard);
+  this.amountLearned = ko.computed(model.amountLearned);
+  this.percentageLearned = ko.computed(model.percentageLearned);
 
   this.input = ko.observable('');
   this.showTranslation = ko.observable(false);
@@ -22,11 +17,11 @@ var LightCardsViewModel = exports.LightCardsViewModel = function(cards) {
   this.animationToggle = ko.observable(true);
 
   this.handlers = {
+    blur: function(_, e) { setTimeout(function() { e.target.focus(); }, 1); },
     keyup: function(_, e) {
-      if (e.keyCode === 13) { this.checkAnswer(this.input());
+      if (e.keyCode === 13) { this.model.checkAnswer(this.input());
       } else if (e.keyCode === 40) { self.showHelp(); }
-    },
-    blur: function(_, e) { setTimeout(function() { e.target.focus(); }, 1); }
+    }
   };
 };
 
@@ -34,7 +29,6 @@ LightCardsViewModel.prototype.reset = function() {
   this.showTranslation(false);
   this.showTranscription(false);
   this.input(null);
-  this.userHasAnsweredIncorrectly(false);
 };
 
 LightCardsViewModel.prototype.markLearned = function(card) {
@@ -52,26 +46,16 @@ LightCardsViewModel.prototype.nextCard = function() {
   this.animationToggle(false);
   setTimeout(function() {
     self.animationToggle(true);
-    self.currentCard(self.shuffledCards.next());
+    self.currentFlashcard(self.shuffledCards.next());
   }, 1);
 };
 
 LightCardsViewModel.prototype.checkAnswer = function(answer) {
-  var isCorrect = pinyin.normalize(answer) === pinyin.normalize(this.currentCard().pinyin);
-  if (isCorrect) {
-    if (!this.userHasAnsweredIncorrectly()) {
-      this.markLearned(this.currentCard());
-    }
-    this.nextCard();
-  } else {
-    this.markNotLearned(this.currentCard());
-    this.userHasAnsweredIncorrectly(true);
-  }
+  this.model.checkAnswer(answer);
 };
 
 LightCardsViewModel.prototype.showHelp = function() {
-  this.userHasAnsweredIncorrectly(true);
-  this.markNotLearned(this.currentCard());
+  this.model.markUnlearned(this.currentFlashcard());
   if (!this.showTranslation()) {
     this.showTranslation(true);
   } else {

@@ -1,4 +1,5 @@
 var ko = require('knockout'),
-    LightCardsViewModel = require('./light-cards-view-model').LightCardsViewModel;
+    LightcardsModel = require('./lightcards-model.js').LightcardsModel,
+    LightcardsViewModel = require('./lightcards-view-model').LightCardsViewModel;
 
-ko.applyBindings(new LightCardsViewModel(cards));
+ko.applyBindings(new LightcardsViewModel(new LightcardsModel(cards)));

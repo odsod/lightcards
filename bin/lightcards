@@ -58,6 +58,7 @@ require('async').waterfall([
     process.stdout.write('Generating flashcards...');
     var cards = require('../vocabulary.js').parse(vocabulary);
     process.stdout.write(' OK!\n'.green);
+    process.stdout.write('Generated ' + (cards.length + '').cyan + ' cards\n');
     process.stdout.write('Compiling scripts...');
     require('browserify')(path.join(__dirname, '../lightcards/main.js')).bundle({
       insertGlobalVars: { cards: function() { return JSON.stringify(cards); } }
