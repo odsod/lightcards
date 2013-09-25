@@ -39,3 +39,4 @@ node_modules
 css
 vocabulary.txt
 !.npmignore
+assets/audio

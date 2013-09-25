@@ -16,6 +16,8 @@ var LightCardsViewModel = exports.LightCardsViewModel = function(model) {
   this.showTranscription = ko.observable(false);
   this.animationToggle = ko.observable(true);
 
+  this.currentFlashcard.subscribe(function() { self.nextCard(); });
+
   this.handlers = {
     blur: function(_, e) { setTimeout(function() { e.target.focus(); }, 1); },
     keyup: function(_, e) {
@@ -23,12 +25,6 @@ var LightCardsViewModel = exports.LightCardsViewModel = function(model) {
       } else if (e.keyCode === 40) { self.showHelp(); }
     }
   };
-};
-
-LightCardsViewModel.prototype.reset = function() {
-  this.showTranslation(false);
-  this.showTranscription(false);
-  this.input(null);
 };
 
 LightCardsViewModel.prototype.markLearned = function(card) {
@@ -42,11 +38,12 @@ LightCardsViewModel.prototype.markNotLearned = function(card) {
 
 LightCardsViewModel.prototype.nextCard = function() {
   var self = this;
-  this.reset();
+  this.showTranslation(false);
+  this.showTranscription(false);
+  this.input(null);
   this.animationToggle(false);
   setTimeout(function() {
     self.animationToggle(true);
-    self.currentFlashcard(self.shuffledCards.next());
   }, 1);
 };
 
@@ -55,7 +52,7 @@ LightCardsViewModel.prototype.checkAnswer = function(answer) {
 };
 
 LightCardsViewModel.prototype.showHelp = function() {
-  this.model.markUnlearned(this.currentFlashcard());
+  this.model.markNotLearned(this.currentFlashcard());
   if (!this.showTranslation()) {
     this.showTranslation(true);
   } else {

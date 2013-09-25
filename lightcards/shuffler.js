@@ -23,5 +23,5 @@ Shuffler.prototype.add = function(item) {
 };
 
 Shuffler.prototype.length = function() {
-  return this.shuffledList.length;
+  return this.list.length;
 };
