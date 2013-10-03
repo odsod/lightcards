@@ -8,6 +8,8 @@ var StatsTracker = exports.StatsTracker = function(options) {
   this._cardsSeen = 0;
   this._correctAnswers = 0;
   this._incorrectAnswers = 0;
+  this._hasUsedHint = false;
+  this._hasAnsweredIncorrectly = false;
 };
 
 StatsTracker.prototype._calcPercentageLearned = function(card) {
@@ -25,39 +27,45 @@ StatsTracker.prototype.getStats = function() {
   };
 };
 
-StatsTracker.prototype._updateStats = function() {
+StatsTracker.prototype._notifyStats = function() {
   this._eventEmitter.emit('stats', this.getStats());
 };
 
 StatsTracker.prototype.logNextCard = function(card) {
-  this._hasAnsweredCurrentCard = false;
+  this._hasAnsweredIncorrectly = false;
+  this._hasUsedHint = false;
 };
 
 StatsTracker.prototype.logCorrectAnswerFor = function(card) {
-  this._hasAnsweredCurrentCard = true;
   this._learnedCards = _(this._learnedCards.concat(card)).unique();
-  this._correctAnswers += 1;
-  this._lastIncorrectlyAnswered = null;
-  this._updateStats();
+  if (!this._hasAnsweredIncorrectly) {
+    this._correctAnswers += 1;
+    this._notifyStats();
+  }
 };
 
 StatsTracker.prototype.logIncorrectAnswerFor = function(card) {
-  this._hasAnsweredCurrentCard = true;
+  this._hasAnsweredIncorrectly = true;
   this._learnedCards = _(this._learnedCards).without(card);
   this._incorrectAnswers += 1;
-  this._updateStats();
+};
+
+StatsTracker.prototype.hasAnsweredIncorrectly = function() {
+  return this._hasAnsweredIncorrectly;
+};
+
+StatsTracker.prototype.hasUsedHint = function() {
+  return this._hasUsedHint;
 };
 
 StatsTracker.prototype.logShowHintFor = function(card) {
+  this._hasUsedHint = true;
   this._learnedCards = _(this._learnedCards).without(card);
 };
 
 StatsTracker.prototype.logShowAnswerFor = function(card) {
+  this._hasUsedHint = true;
   this._learnedCards = _(this._learnedCards).without(card);
-};
-
-StatsTracker.prototype._hasAnsweredCurrentCard = function() {
-  return this._hasAnsweredCurrentCard;
 };
 
 StatsTracker.prototype.addEventListener = function(type, handler) {

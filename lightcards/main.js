@@ -40,17 +40,18 @@ viewModel.addEventListener('showhelp:answer', function(card) {
 
 viewModel.addEventListener('input:submit', function(input) {
   var answerIsCorrect = isAnswerCorrect(currentCard, input);
-  if (answerIsCorrect &&
-      !statsTracker.hasUsedHint() &&
-      !statsTracker.hasAnsweredIncorrectly()) {
-    leitnerSystem.promote(currentCard);
-  } else if (!answerIsCorrect && !statsTracker.hasAnsweredIncorrectly()) {
-    leitnerSystem.demote(currentCard);
-  }
   if (isAnswerCorrect(currentCard, input)) {
+    // Update leitner system
+    if (!statsTracker.hasUsedHint() &&
+        !statsTracker.hasAnsweredIncorrectly()) {
+      leitnerSystem.promoteCard(currentCard);
+    } else if (statsTracker.hasAnsweredIncorrectly()) {
+      leitnerSystem.demoteCard(currentCard);
+    }
     statsTracker.logCorrectAnswerFor(currentCard);
     currentCard = leitnerSystem.nextCard();
     viewModel.setCurrentCard(currentCard);
+    statsTracker.logNextCard(currentCard);
   } else {
     statsTracker.logIncorrectAnswerFor(currentCard);
   }
