@@ -2,6 +2,7 @@ var _ = require('underscore'),
     ShuffleBox = require('./shuffle-box.js').ShuffleBox;
 
 var LeitnerSystem = exports.LeitnerSystem = function(options) {
+  if (!options.cards) { throw new Error('Did not supply cards to LeitnerSystem'); }
   this.cards = options.cards;
   this.boxes = [];
   this.bufferSize = this.cards.length;
@@ -19,7 +20,7 @@ LeitnerSystem.prototype.log = function() {
   console.log('Cards:', this.cardBuffer.length);
 };
 
-LeitnerSystem.prototype.next = function() {
+LeitnerSystem.prototype.nextCard = function() {
   var self = this;
   if (_(this.cardBuffer).isEmpty()) {
     this.boxes.forEach(function(box, i) {
@@ -30,7 +31,7 @@ LeitnerSystem.prototype.next = function() {
   return this.cardBuffer.pop();
 };
 
-LeitnerSystem.prototype.promote = function(card) {
+LeitnerSystem.prototype.promoteCard = function(card) {
   var currentBox = _(this.boxes).find(function(box) {
     return box.contains(card);
   });
@@ -40,7 +41,7 @@ LeitnerSystem.prototype.promote = function(card) {
   this.log();
 };
 
-LeitnerSystem.prototype.demote = function(card) {
+LeitnerSystem.prototype.demoteCard = function(card) {
   var currentBox = _(this.boxes).find(function(box) {
     return box.contains(card);
   });

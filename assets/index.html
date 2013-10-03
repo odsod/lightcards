@@ -8,23 +8,23 @@
 </head>
 <body>
 
-  <div class="stats">
-    <ul class="animated" style="opacity: 0" data-bind="css: { fadeInLeft: animationToggle }">
+  <div class="stats" data-bind="with: stats">
+    <ul class="animated" style="opacity: 0" data-bind="css: { fadeInLeft: $root.animationToggle }">
       <li class="hits" data-bind="text: amountLearned"></li>
       <li class="hit-rate" data-bind="text: percentageLearned"></li>
     </ul>
   </div>
 
-  <h1 class="animated" data-bind="foreach: currentFlashcard().hanzi, css: { fadeInDown: animationToggle }">
+  <h1 class="animated" data-bind="foreach: currentCard().hanzi, css: { fadeInDown: animationToggle }">
     <span data-bind="text: $data, click: $root.handlers.click"></span>
   </h1>
   <input tabindex="1" autofocus data-bind="
     value: input, valueUpdate: 'afterkeydown', 
     event: { blur: handlers.blur, keyup: handlers.keyup },
-    attr: { placeholder: currentFlashcard().pinyin },
+    attr: { placeholder: currentCard().pinyin },
     css: { test: showTranscription }
   " autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-  <p class="hidden" data-bind="text: currentFlashcard().translation, css: { show: showTranslation }"></p>
+  <p class="hidden" data-bind="text: currentCard().translation, css: { show: showTranslation }"></p>
 
   <script src="script.js"></script>
 </body>
