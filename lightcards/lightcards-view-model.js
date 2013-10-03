@@ -1,7 +1,6 @@
 var ko = require('knockout'),
     _ = require('underscore'),
-    pinyin = require('../pinyin.js'),
-    Shuffler = require('./shuffler').Shuffler;
+    pinyin = require('../pinyin.js');
 
 var LightCardsViewModel = exports.LightCardsViewModel = function(model, options) {
   var self = this;
@@ -36,15 +35,6 @@ var LightCardsViewModel = exports.LightCardsViewModel = function(model, options)
       } else if (e.keyCode === 40) { self.showHelp(); }
     }
   };
-};
-
-LightCardsViewModel.prototype.markLearned = function(card) {
-  this.learnedCards.push(card);
-  this.learnedCards(_.unique(this.learnedCards()));
-};
-
-LightCardsViewModel.prototype.markNotLearned = function(card) {
-  this.learnedCards.remove(card);
 };
 
 LightCardsViewModel.prototype.nextCard = function() {

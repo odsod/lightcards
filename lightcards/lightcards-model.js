@@ -1,21 +1,21 @@
 var _ = require('underscore'),
     ko = require('knockout'),
-    Shuffler = require('./shuffler.js').Shuffler,
+    LeitnerSystem = require('./leitner-system.js').LeitnerSystem,
     pinyin = require('../pinyin.js');
 
 var LightcardsModel = exports.LightcardsModel = function(flashcards) {
   var self = this;
   this.flashcards = flashcards;
-  this.learnedFlashcards = new Shuffler([]);
-  this.notLearnedFlashcards = new Shuffler(flashcards);
-  this.currentFlashcard = ko.observable(this.notLearnedFlashcards.next());
+  this.cards = new LeitnerSystem({
+    cards: flashcards,
+    frequencies: [0.55, 0.20, 0.15, 0.10]
+  });
+  this.currentFlashcard = ko.observable(this.cards.next());
   this.amountLearned = ko.computed(function() {
-    self.currentFlashcard();
-    return self.learnedFlashcards.length();
+    return 0;
   });
   this.percentageLearned = ko.computed(function() {
-    self.currentFlashcard();
-    return Math.floor(self.learnedFlashcards.length() / flashcards.length);
+    return 0;
   });
   this.hasMarkedNotLearned = false;
 };
@@ -24,32 +24,21 @@ LightcardsModel.prototype.checkAnswer = function(answer) {
   var isCorrect = pinyin.normalize(answer) === pinyin.normalize(this.currentFlashcard().pinyin);
   if (isCorrect) {
     if (!this.hasMarkedNotLearned) {
-      this.markLearned(this.currentFlashcard());
+      this.cards.promote(this.currentFlashcard());
     }
     this.nextCard();
   } else {
-    this.markNotLearned(this.currentFlashcard());
+    this.cards.demote(this.currentFlashcard());
+    this.hasMarkedNotLearned = true;
   }
 };
 
-LightcardsModel.prototype.nextCard = function() {
-  var chanceToPickNotLearned = Math.max(0.25, this.notLearnedFlashcards.length() / this.flashcards.length);
-  var nextCard;
-  if (Math.random() < chanceToPickNotLearned) {
-    nextCard = this.notLearnedFlashcards.next();
-  }
-  nextCard = nextCard || this.learnedFlashcards.next();
-  this.currentFlashcard(nextCard);
-  this.hasMarkedNotLearned = false;
-};
-
-LightcardsModel.prototype.markNotLearned = function(flashcard) {
-  this.learnedFlashcards.remove(flashcard);
-  this.notLearnedFlashcards.add(flashcard);
+LightcardsModel.prototype.markNotLearned = function(card) {
+  this.cards.demote(card);
   this.hasMarkedNotLearned = true;
 };
 
-LightcardsModel.prototype.markLearned = function(flashcard) {
-  this.notLearnedFlashcards.remove(flashcard);
-  this.learnedFlashcards.add(flashcard);
+LightcardsModel.prototype.nextCard = function() {
+  this.currentFlashcard(this.cards.next());
+  this.hasMarkedNotLearned = false;
 };
