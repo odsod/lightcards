@@ -94,7 +94,7 @@ require('async').waterfall([
     }
 
     process.stdout.write('Compiling scripts...');
-    require('browserify')(path.join(__dirname, '../lightcards/lightcards.js')).bundle({
+    require('browserify')(path.join(__dirname, '../client/main.js')).bundle({
       insertGlobalVars: {
         flashcards: function() { return JSON.stringify(cards); },
         boxes: function() { return boxes; },
