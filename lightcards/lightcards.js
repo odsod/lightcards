@@ -3,8 +3,6 @@ var ko = require('knockout'),
     equalsPinyin = require('./pinyin.js').equalsPinyin,
     LeitnerSystem = require('./leitner-system.js').LeitnerSystem;
 
-console.log(cards);
-
 var m = {};
 
 m.leitnerSystem = new LeitnerSystem({
@@ -42,14 +40,24 @@ vm.translation = ko.observable(m.currentCard.translation);
 vm.isShowingPlaceholder = ko.observable(false);
 vm.isShowingTranslation = ko.observable(false);
 
-vm.animationToggle = ko.observable(true);
+vm.animationToggle = ko.observable(false);
+
+vm.afterAnimationStarted = function(callback) {
+  vm.animationToggle(true);
+  setTimeout(function() {
+    vm.animationToggle(false);
+    callback();
+  }, 0);
+};
 
 vm.setCurrentCard = function(card) {
-  vm.hanzi(card.hanzi);
-  vm.translation(card.translation);
-  vm.placeholder(card.pinyin);
   vm.isShowingPlaceholder(false);
   vm.isShowingTranslation(false);
+  vm.afterAnimationStarted(function() {
+    vm.hanzi(card.hanzi);
+    vm.translation(card.translation);
+    vm.placeholder(card.pinyin);
+  });
 };
 
 vm.requestHintIfKeyIsDownArrow = function(_, e) {

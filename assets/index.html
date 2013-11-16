@@ -8,7 +8,10 @@
 </head>
 <body>
 
-  <h1 data-bind="text: hanzi"></h1>
+  <h1 data-bind="
+    text: hanzi,
+    css: { 'toggle-animation': animationToggle }
+  "></h1>
 
   <form data-bind="submit: checkIfInputIsCorrect">
     <input data-bind="

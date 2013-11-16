@@ -30,11 +30,13 @@ body {
 
 h1 {
   font-size: 12em;
+  color: #111;
 }
 
 input {
   font-size: 4em;
   font-weight: 200;
+  color: #222;
   text-align: center;
   // Unstyle it
   margin: 0;
@@ -47,6 +49,8 @@ input {
 
 p {
   font-size: 1.5em;
+  font-weight: 200;
+  color: #333;
 }
 
 /* Animation and toggle */
@@ -61,13 +65,14 @@ input {
 p {
   opacity: 0;
   &.show {
+    .transition(opacity 0.75s ease);
     opacity: 1; 
   }
 }
 
 .fade-in-down () {
   from {
-    .transform(translateY(-40px));
+    .transform(translateY(-20px));
     opacity: 0;
   }
   to {
