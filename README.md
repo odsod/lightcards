@@ -23,7 +23,7 @@ Have fun!
 Todo
 ----
 
-[ ] Add visual hint that `↓`-key reveals translation / input
-[ ] Keep track of state between sessions using a local file
+[ ] Recompile script on every request
+[x] Keep track of state between sessions using a local file
 [x] Randomize cards using a spaced repetition algorithm
 [x] Add support for pronounciation mp3:s
