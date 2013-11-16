@@ -1,15 +1,40 @@
 var ko = require('knockout'),
     cards = require('./globals.js').cards,
-    boxes = require('./globals.js').boxes,
+    oldBoxes = require('./globals.js').boxes,
     equalsPinyin = require('./pinyin.js').equalsPinyin,
     LeitnerSystem = require('./leitner-system.js').LeitnerSystem;
 
-console.log(boxes);
+var find = require('mout/array/find'),
+    contains = require('mout/array/contains'),
+    findIndex = require('mout/array/findIndex'),
+    deepEquals = require('mout/object/deepEquals');
+
+var reconstructBoxes = function(cards, oldBoxes, newBoxes) {
+  cards.forEach(function(card) {
+    var oldBoxIndex = findIndex(oldBoxes, function(box) {
+      return !!find(box, function(cardInBox) {
+        return deepEquals(card, cardInBox);
+      });
+    });
+    if (oldBoxIndex !== -1 && oldBoxIndex < newBoxes.length) {
+      newBoxes[oldBoxIndex].push(card);
+    } else {
+      newBoxes[0].push(card);
+    }
+  });
+  return newBoxes;
+};
+
+console.log(oldBoxes);
+
+var reconstructedBoxes = reconstructBoxes(cards, oldBoxes, [[], [], [], []]);
+
+console.log(reconstructedBoxes);
 
 var m = {};
 
 m.leitnerSystem = new LeitnerSystem({
-  boxes: [cards, [], [], []],
+  boxes: reconstructedBoxes,
   frequencies: [0.55, 0.20, 0.15, 0.10],
   batchSize: 20
 });
