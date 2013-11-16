@@ -65,12 +65,21 @@ LeitnerSystem.prototype.move = function(item, delta) {
   var nextBoxIndex = this._boxes.indexOf(currentBox) + delta;
   nextBoxIndex = Math.min(this._boxes.length - 1, Math.max(0, nextBoxIndex));
   this._boxes[nextBoxIndex].push(item);
+  this._log();
 };
 
 LeitnerSystem.prototype.promote = function(item) {
+  console.log('[Leitner System] Promoting', item);
   this.move(item, 1);
 };
 
 LeitnerSystem.prototype.demote = function(item) {
+  console.log('[Leitner System] Demoting', item);
   this.move(item, -1);
+};
+
+LeitnerSystem.prototype.toSerializedForm = function(item) {
+  return this._boxes.map(function(box) {
+    return box.slice();
+  });
 };

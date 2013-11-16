@@ -37,7 +37,10 @@ npm-debug.log
 node_modules
 
 css
+
 vocabulary.txt
+state.json
+
 !.npmignore
 assets/audio
 

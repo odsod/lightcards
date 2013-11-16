@@ -1,7 +1,10 @@
 var ko = require('knockout'),
     cards = require('./globals.js').cards,
+    boxes = require('./globals.js').boxes,
     equalsPinyin = require('./pinyin.js').equalsPinyin,
     LeitnerSystem = require('./leitner-system.js').LeitnerSystem;
+
+console.log(boxes);
 
 var m = {};
 
@@ -15,6 +18,13 @@ m.currentCard = m.leitnerSystem.next();
 m.hasUsedHintForCurrentCard = false;
 m.hasAnsweredCurrentCardIncorrectly = false;
 
+m.saveState = function() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/save', true);
+  xhr.setRequestHeader('Content-type', 'application/json');
+  xhr.send(JSON.stringify(m.leitnerSystem.toSerializedForm()));
+};
+
 m.nextCard = function() {
   if (!m.hasAnsweredCurrentCardIncorrectly &&
       !m.hasUsedHintForCurrentCard) {
@@ -22,11 +32,11 @@ m.nextCard = function() {
   } else {
     m.leitnerSystem.demote(m.currentCard);
   }
+  m.hasAnsweredCurrentCardIncorrectly = false;
+  m.hasUsedHintForCurrentCard = false;
   m.currentCard = m.leitnerSystem.next();
+  m.saveState();
   return m.currentCard;
-};
-
-m.checkInput = function(inputToCheck) {
 };
 
 var vm = {};

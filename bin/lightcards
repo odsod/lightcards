@@ -84,10 +84,20 @@ require('async').waterfall([
     process.stdout.write(' OK!\n'.green);
     process.stdout.write('Generated ' + (cards.length + '').cyan + ' cards\n');
 
+    process.stdout.write('Reading state.json...');
+    var boxes;
+    if (fs.existsSync('state.json')) {
+      boxes = fs.readFileSync('state.json', 'utf-8');
+      process.stdout.write(' OK!\n'.green);
+    } else {
+      process.stdout.write(' NOT FOUND!\n'.cyan);
+    }
+
     process.stdout.write('Compiling scripts...');
     require('browserify')(path.join(__dirname, '../lightcards/lightcards.js')).bundle({
       insertGlobalVars: {
         flashcards: function() { return JSON.stringify(cards); },
+        boxes: function() { return boxes; },
         hasAudio: function() { return fs.existsSync(path.join(__dirname, '../assets/audio')); }
       }
     }, callback);
@@ -98,9 +108,16 @@ require('async').waterfall([
     process.stdout.write('Starting local web server...');
 
     var express = require('express'), app = express();
+    app.use(express.bodyParser());
     app.use(express.static(path.join(__dirname, '../assets')));
     app.use(express.favicon(path.join(__dirname, '../assets/favicon.ico')));
     app.get('/lightcards.js', function(req, res) { res.end(bundle); });
+    app.post('/save', function(req, res) {
+      console.log('Saving...');
+      console.log(req.body);
+      fs.writeFileSync(path.join(process.cwd(), 'state.json'), JSON.stringify(req.body));
+      res.end();
+    });
     require('http').createServer(app).listen(program.port, callback);
   }
 
