@@ -2,30 +2,30 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>lightcards</title>
+<title>Lightcards</title>
 <link href="css/styles.css" rel="stylesheet">
 <link href="favicon.ico" rel="shortcut icon">
 </head>
 <body>
 
-  <div class="stats" data-bind="with: stats">
-    <ul class="animated" style="opacity: 0" data-bind="css: { fadeInLeft: $root.animationToggle }">
-      <li class="hits" data-bind="text: amountLearned"></li>
-      <li class="hit-rate" data-bind="text: percentageLearned"></li>
-    </ul>
-  </div>
+  <h1 data-bind="text: hanzi"></h1>
 
-  <h1 class="animated" data-bind="foreach: currentCard().hanzi, css: { fadeInDown: animationToggle }">
-    <span data-bind="text: $data, click: $root.handlers.click"></span>
-  </h1>
-  <input tabindex="1" autofocus data-bind="
-    value: input, valueUpdate: 'afterkeydown', 
-    event: { blur: handlers.blur, keyup: handlers.keyup },
-    attr: { placeholder: currentCard().pinyin },
-    css: { test: showTranscription }
-  " autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-  <p class="hidden" data-bind="text: currentCard().translation, css: { show: showTranslation }"></p>
+  <form data-bind="submit: checkIfInputIsCorrect">
+    <input data-bind="
+      value: input,
+      attr: { placeholder: placeholder },
+      css: { 'show-placeholder': isShowingPlaceholder },
+      event: { blur: restoreFocus, keyup: requestHintIfKeyIsDownArrow }
+    " autofocus tabindex="1" 
+      autocomplete="off" 
+      autocorrect="off"
+      autocapitalize="off" 
+      spellcheck="false"
+    >
+  </form>
 
-  <script src="script.js"></script>
+  <p data-bind="text: translation, css: { show: isShowingTranslation }"></p>
+
+  <script src="lightcards.js"></script>
 </body>
 </html>

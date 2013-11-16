@@ -17,7 +17,9 @@
     "commander": "~2.0.0",
     "browserify": "~2.31.0",
     "colors": "~0.6.2",
-    "async": "~0.2.9"
+    "async": "~0.2.9",
+    "mout": "~0.7.1",
+    "grunt-contrib-less": "~0.8.2"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

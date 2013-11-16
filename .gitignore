@@ -40,3 +40,5 @@ css
 vocabulary.txt
 !.npmignore
 assets/audio
+
+bower_components

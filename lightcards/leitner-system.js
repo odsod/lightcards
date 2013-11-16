@@ -1,52 +1,76 @@
-var _ = require('underscore'),
-    ShuffleBox = require('./shuffle-box.js').ShuffleBox;
+var contains = require('mout/array/contains'),
+    find = require('mout/array/find'),
+    remove = require('mout/array/remove'),
+    shuffle = require('mout/array/shuffle');
+
+/* Shuffling */
+
+var decorateWithShuffling = function(arr) {
+  arr = arr.slice();
+  arr._shuffledItems = [];
+  return arr;
+};
+
+var takeShuffledItems = function(arr, n) {
+  if (arr._shuffledItems.length < n) {
+    arr._shuffledItems = shuffle(arr);
+  }
+  return arr._shuffledItems.splice(0, n);
+};
+
+var removeShuffledItem = function(arr, item) {
+  remove(arr._shuffledItems, item);
+  remove(arr, item);
+};
+
+/* Leitner system */
 
 var LeitnerSystem = exports.LeitnerSystem = function(options) {
-  if (!options.cards) { throw new Error('Did not supply cards to LeitnerSystem'); }
-  this.cards = options.cards;
-  this.boxes = [];
-  this.bufferSize = this.cards.length;
-  this.frequencies = options.frequencies;
-  this.cardBuffer = [];
-  this.boxes = _(this.frequencies.length).range().map(function() {
-    return new ShuffleBox();
-  });
-  this.boxes[0].add(options.cards);
-  this.log();
+  this._boxes = options.boxes.map(decorateWithShuffling);
+  this._frequencies = options.frequencies;
+  this._batchSize = options.batchSize;
+  this._currentBatch = [];
 };
 
-LeitnerSystem.prototype.log = function() {
-  console.log('Boxes:', _(this.boxes).invoke('size'));
-  console.log('Cards:', this.cardBuffer.length);
+LeitnerSystem.prototype._log = function() {
+  console.log('Boxes:', this._boxes.map(function(box) {
+    return box.length;
+  }));
+  console.log('Current batch:', this._currentBatch.length);
 };
 
-LeitnerSystem.prototype.nextCard = function() {
-  var self = this;
-  if (_(this.cardBuffer).isEmpty()) {
-    this.boxes.forEach(function(box, i) {
-      var amountFromThisBox = Math.ceil(self.bufferSize * self.frequencies[i]);
-      self.cardBuffer = self.cardBuffer.concat(box.next(amountFromThisBox));
-    });
+LeitnerSystem.prototype._getNewBatch = function() {
+  var batch = [];
+  for (var i = 0, len = this._boxes.length; i < len; ++i) {
+    var amountFromThisBox = Math.round(this._batchSize * this._frequencies[i]),
+        itemsFromThisBox = takeShuffledItems(this._boxes[i], amountFromThisBox);
+    batch.push.apply(batch, itemsFromThisBox);
   }
-  return this.cardBuffer.pop();
+  return batch;
 };
 
-LeitnerSystem.prototype.promoteCard = function(card) {
-  var currentBox = _(this.boxes).find(function(box) {
-    return box.contains(card);
-  });
-  currentBox.remove(card);
-  var nextBox = this.boxes[Math.min(this.boxes.length - 1, this.boxes.indexOf(currentBox) + 1)];
-  nextBox.add(card);
-  this.log();
+LeitnerSystem.prototype.next = function() {
+  if (this._currentBatch.length === 0) {
+    this._currentBatch = this._getNewBatch();
+  }
+  return this._currentBatch.pop();
 };
 
-LeitnerSystem.prototype.demoteCard = function(card) {
-  var currentBox = _(this.boxes).find(function(box) {
-    return box.contains(card);
+LeitnerSystem.prototype.move = function(item, delta) {
+  var currentBox = find(this._boxes, function(box) {
+    return contains(box, item);
   });
-  currentBox.remove(card);
-  var nextBox = this.boxes[Math.max(0, this.boxes.indexOf(currentBox) - 1)];
-  nextBox.add(card);
-  this.log();
+  removeShuffledItem(currentBox, item);
+
+  var nextBoxIndex = this._boxes.indexOf(currentBox) + delta;
+  nextBoxIndex = Math.min(this._boxes.length - 1, Math.max(0, nextBoxIndex));
+  this._boxes[nextBoxIndex].push(item);
+};
+
+LeitnerSystem.prototype.promote = function(item) {
+  this.move(item, 1);
+};
+
+LeitnerSystem.prototype.demote = function(item) {
+  this.move(item, -1);
 };

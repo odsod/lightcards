@@ -1,0 +1,94 @@
+@import (inline) "../bower_components/normalize-css/normalize.css";
+@import "../bower_components/lesshat/build/lesshat.less";
+
+html {
+  font-size: 100%; 
+  line-height: 1.5em;
+}
+
+* {
+  .user-select(none);
+  cursor: default !important;
+}
+
+body {
+  text-align: center;
+  font-family: Helvetica Neue, 
+               Helvetica,
+               Tahoma,
+               Arial,
+               "Microsoft YaHei New",
+               "Microsoft Yahei",
+               "微软雅黑",
+               "宋体",
+               SimSun,
+               STXihei,
+               "华文细黑",
+               sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  font-size: 12em;
+}
+
+input {
+  font-size: 4em;
+  font-weight: 200;
+  text-align: center;
+  // Unstyle it
+  margin: 0;
+  padding: 0;
+  display: block;
+  width: 100%;
+  border: 0;
+  outline: none;
+}
+
+p {
+  font-size: 1.5em;
+}
+
+/* Animation and toggle */
+
+input {
+  .placeholder(white);
+  &.show-placeholder {
+    .placeholder(#ccc);
+  }
+}
+
+p {
+  opacity: 0;
+  &.show {
+    opacity: 1; 
+  }
+}
+
+.fade-in-down () {
+  from {
+    .transform(translateY(-40px));
+    opacity: 0;
+  }
+  to {
+    .transform(translateY(0));
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fade-in-down { .fade-in-down; }
+@-moz-keyframes fade-in-down { .fade-in-down; }
+@-ms-keyframes fade-in-down { .fade-in-down; }
+@-o-keyframes fade-in-down { .fade-in-down; }
+@keyframes fade-in-down { .fade-in-down; }
+
+.toggle-animation {
+  .animation-name(none) !important;
+}
+
+h1 {
+  .animation-duration(0.75s);
+  .animation-fill-mode(both);
+  .animation-timing-function(ease);
+  .animation-name(fade-in-down);
+}

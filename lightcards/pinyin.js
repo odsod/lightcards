@@ -67,11 +67,14 @@ var markToNum = {
   'ǜ': { 'replaceWith': 'ü', 'tone': '4' }
 };
 
-exports.normalize = function(pinyin) {
+var normalize = function(pinyin) {
   return pinyin
     .trim()
     .replace(/5/g, '')
-    .replace(/u:/g, 'v')
-    .replace(/ü/g, 'v')
+    .replace(/u:|ü/g, 'v')
     .replace(/\s+/g, '');
+};
+
+exports.equalsPinyin = function(lhs, rhs) {
+  return normalize(lhs) === normalize(rhs);
 };
