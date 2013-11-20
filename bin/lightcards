@@ -5,128 +5,39 @@ require('colors');
 
 var fs = require('fs'),
     path = require('path'),
-    program = require('commander'),
-    pkg = require('../package.json');
+    program = require('commander');
+
+var pkg = require('../package.json');
 
 program
   .version(pkg.version)
-  .option('-p, --port <port>', 'specify the server port [3000]', parseInt, 3000)
-  .usage('[file]');
+
+  .option('-p, --port <port>',
+          'specify the server port [3000]', parseInt, 3000)
+
+  .option('-v, --vocabulary-file <file>',
+          'specify a vocabulary file [lightcards-vocabulary.txt]', 'vocabulary.txt')
+
+  .option('-c, --config-file <file>',
+          'specify a configuration file [lightcards-config.json]', 'config.json')
+
+  .option('-s, --state-file <file>',
+          'specify a saved state file [lightcards-state.json]', 'state.json');
 
 program
   .command('init')
-  .description('initialize a vocabulary in the current directory')
-  .action(function() {
-    if (!fs.existsSync(path.join(process.cwd(), 'vocabulary.txt'))) {
-      fs.writeFileSync(path.join(process.cwd(), 'vocabulary.txt'),
-                       fs.readFileSync(path.join(__dirname, '../assets/example_vocabulary.txt')));
-      console.log('File' + ' vocabulary.txt '.cyan + 'created.');
-    } else {
-      console.log('File' + ' vocabulary.txt '.cyan + 'already exists.');
-    }
-    process.exit();
-  });
-
-program.on('--help', function() {
-  console.log('  Examples:');
-  console.log('');
-  console.log('    $ cat ./path/to/vocabulary | lightcards  read vocabulary from stdin');
-  console.log('    $ lightcards ./path/to/vocabulary        read vocabulary from file');
-});
+  .description('initialize a lightcards setup in the current directory')
+  .action(require('./init.js'));
 
 program.parse(process.argv);
 
-console.log('');
+process.stdout.write('Starting local web server...');
 
-var parseVocabulary = function(vocabulary) {
-  return vocabulary.trim().split('\n')
-    .map(function(row) {
-      return row.trim().split('\t').map(function(entry) {
-        return entry.trim();
-      });
-    })
-    .filter(function(row) {
-      return row.length === 3 &&
-             row[0] && row[1] && row[2];
-    })
-    .map(function(row) {
-      return {
-        hanzi: row[0],
-        pinyin: row[1],
-        translation: row[2]
-      };
-    });
-};
-
-require('async').waterfall([
-
-  function readVocabulary(callback) {
-    if (program.args[0]) {
-      process.stdout.write('Reading vocabulary from ' + program.args[0].cyan + '...');
-      fs.readFile(program.args[0], 'utf-8', callback);
-    } else {
-      process.stdout.write('Reading vocabulary from stdin...');
-      var indata;
-      process.stdin.on('data', function(chunk) {
-        indata = indata ? Buffer.concat([indata, chunk]) : chunk;
-      });
-      process.stdin.on('end', function(err) {
-        callback(null, indata.toString('utf-8'));
-      });
-    }
-  },
-
-  function compileScriptBundle(vocabulary, callback) {
-    process.stdout.write(' OK!\n'.green);
-    process.stdout.write('Generating flashcards...');
-
-    var cards = parseVocabulary(vocabulary);
-    process.stdout.write(' OK!\n'.green);
-    process.stdout.write('Generated ' + (cards.length + '').cyan + ' cards\n');
-
-    process.stdout.write('Reading state.json...');
-    var boxes;
-    if (fs.existsSync('state.json')) {
-      boxes = fs.readFileSync('state.json', 'utf-8');
-      process.stdout.write(' OK!\n'.green);
-    } else {
-      process.stdout.write(' NOT FOUND!\n'.cyan);
-    }
-
-    process.stdout.write('Compiling scripts...');
-    require('browserify')(path.join(__dirname, '../client/main.js')).bundle({
-      insertGlobalVars: {
-        flashcards: function() { return JSON.stringify(cards); },
-        boxes: function() { return boxes; },
-        hasAudio: function() { return fs.existsSync(path.join(__dirname, '../assets/audio')); }
-      }
-    }, callback);
-  },
-
-  function startWebServer(bundle, callback) {
-    process.stdout.write(' OK!\n'.green);
-    process.stdout.write('Starting local web server...');
-
-    var express = require('express'), app = express();
-    app.use(express.bodyParser());
-    app.use(express.static(path.join(__dirname, '../assets')));
-    app.use(express.favicon(path.join(__dirname, '../assets/favicon.ico')));
-    app.get('/lightcards.js', function(req, res) { res.end(bundle); });
-    app.post('/save', function(req, res) {
-      console.log('Saving...');
-      console.log(req.body);
-      fs.writeFileSync(path.join(process.cwd(), 'state.json'), JSON.stringify(req.body));
-      res.end();
-    });
-    require('http').createServer(app).listen(program.port, callback);
-  }
-
-], function done(err) {
-  if (err) {
-    process.stdout.write(' ERROR!\n\n'.red);
-    console.log(err.toString());
-  } else {
-    process.stdout.write(' OK!\n\n'.green);
-    process.stdout.write('Start learning on ' + ('http://localhost:' + program.port).cyan);
-  }
+require('../server').listen({
+  port: program.port,
+  stateFile: program.state || 'state.json',
+  configFile: program.config || 'lightcards.json'
+}, function(err) {
+  process.stdout.write(' OK!\n\n'.green);
+  process.stdout.write('Start learning on ' + ('http://localhost:' + program.port).cyan);
 });

@@ -11,18 +11,16 @@
   "author": "Oscar Söderlund",
   "license": "MIT",
   "dependencies": {
-    "underscore": "~1.5.2",
     "express": "~3.4.0",
     "knockout": "~2.3.0",
     "commander": "~2.0.0",
     "browserify": "~2.31.0",
     "colors": "~0.6.2",
-    "async": "~0.2.9",
-    "mout": "~0.7.1",
-    "grunt-contrib-less": "~0.8.2"
+    "mout": "~0.7.1"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
+    "grunt-contrib-less": "~0.8.2",
     "grunt-contrib-compass": "~0.5.0",
     "grunt-contrib-watch": "~0.5.3"
   }

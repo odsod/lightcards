@@ -42,6 +42,8 @@ vocabulary.txt
 state.json
 
 !.npmignore
-assets/audio
+static/audio
+static/css
 
 bower_components
+lightcards
