@@ -33,11 +33,11 @@ program.parse(process.argv);
 
 process.stdout.write('Starting local web server...');
 
-require('../server').listen({
+require('../lib/server').listen({
   port: program.port,
   stateFile: program.state || 'state.json',
   configFile: program.config || 'lightcards.json'
 }, function(err) {
-  process.stdout.write(' OK!\n\n'.green);
+  process.stdout.write(' OK!\n'.green);
   process.stdout.write('Start learning on ' + ('http://localhost:' + program.port).cyan);
 });

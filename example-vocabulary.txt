@@ -1,12 +1,30 @@
-什么
-名字
-谢谢
-很
-早饭
-苹果
-孩子
-鸭子
-吃
-你
-吗
-我
+一	yi1	one
+二	er4	two
+三	san1	three
+四	si4	four
+五	wu3	five
+六	liu4	six
+七	qi4	seven
+八	ba1	eight
+九	jiu3	nine
+十	shi2	ten
+百	bai3	hundred
+千	qian1	thousand
+万	wan4	ten thousand
+		
+上	shang4	on
+上海	shang4 hai3	Shanghai
+不	bu4	not
+不客气	bu4 ke4 qi4	you're welcome
+两	liang3	both
+个	ge4	piece
+中国	zhong1 guo2	China
+中文	zhong1 wen2	Chinese
+人	ren2	person
+		
+什么	shen2 me	what
+他	ta1	he
+们	men	plural
+你	ni3	you
+儿子	er2 zi	son
+出租车	chu1 zu1 che1	taxi
