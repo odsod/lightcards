@@ -35,9 +35,10 @@ process.stdout.write('Starting local web server...');
 
 require('../lib/server').listen({
   port: program.port,
-  stateFile: program.state || 'state.json',
-  configFile: program.config || 'lightcards.json'
+  stateFile: program.state,
+  configFile: program.config,
+  vocabularyFile: program.vocabularyFile
 }, function(err) {
   process.stdout.write(' OK!\n'.green);
-  process.stdout.write('Start learning on ' + ('http://localhost:' + program.port).cyan);
+  process.stdout.write('Start learning on ' + ('http://localhost:' + program.port).cyan + '\n');
 });
