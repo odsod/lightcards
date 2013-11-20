@@ -9,21 +9,18 @@ Getting started
 ---------------
 
     npm install -g lightcards
-
-To generate a starting vocabulary:
-
     lightcards init
-
-To run `lightcards`:
-
-    lightcards
+    cd lightcards && lightcards
 
 Have fun!
 
 Todo
 ----
 
-[ ] Recompile script on every request
+[x] Recompile script on every request
+
 [x] Keep track of state between sessions using a local file
+
 [x] Randomize cards using a spaced repetition algorithm
-[x] Add support for pronounciation mp3:s
+
+[ ] Add support for pronounciation mp3:s
