@@ -16,13 +16,13 @@ program
           'specify the server port [3000]', parseInt, 3000)
 
   .option('-v, --vocabulary-file <file>',
-          'specify a vocabulary file [lightcards-vocabulary.txt]', 'vocabulary.txt')
+          'specify a vocabulary file [vocabulary.txt]', 'vocabulary.txt')
 
   .option('-c, --config-file <file>',
-          'specify a configuration file [lightcards-config.json]', 'config.json')
+          'specify a configuration file [config.json]', 'config.json')
 
   .option('-s, --state-file <file>',
-          'specify a saved state file [lightcards-state.json]', 'state.json');
+          'specify a saved state file [state.json]', 'state.json');
 
 program
   .command('init')
@@ -35,8 +35,8 @@ process.stdout.write('Starting local web server...');
 
 require('../lib/server').listen({
   port: program.port,
-  stateFile: program.state,
-  configFile: program.config,
+  stateFile: program.stateFile,
+  configFile: program.configFile,
   vocabularyFile: program.vocabularyFile
 }, function(err) {
   process.stdout.write(' OK!\n'.green);
