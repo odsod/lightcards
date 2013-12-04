@@ -22,7 +22,10 @@ program
           'specify a configuration file [config.json]', 'config.json')
 
   .option('-s, --state-file <file>',
-          'specify a saved state file [state.json]', 'state.json');
+          'specify a saved state file [state.json]', 'state.json')
+          
+  .option('-a, --audio-folder <folder>',
+          'specify a folder with audio files [./audio/]', 'audio');
 
 program
   .command('init')
@@ -37,7 +40,8 @@ require('../lib/server').listen({
   port: program.port,
   stateFile: program.stateFile,
   configFile: program.configFile,
-  vocabularyFile: program.vocabularyFile
+  vocabularyFile: program.vocabularyFile,
+  audioFolder: program.audioFolder
 }, function(err) {
   process.stdout.write(' OK!\n'.green);
   process.stdout.write('Start learning on ' + ('http://localhost:' + program.port).cyan + '\n');
