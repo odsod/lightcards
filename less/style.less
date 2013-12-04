@@ -129,6 +129,32 @@ h1 {
   .animation-name(fade-in-down);
 }
 
+.hanzi {
+  &::after {
+    content: ' ';
+    position: absolute;
+    left: -15px;
+    top: -15px;
+    width: 50px;
+    height: 50px;
+    background: url('../speaker.svg') no-repeat center center; 
+    background-color: #111;
+    background-size: 75%;
+    opacity: 0;
+    border-radius: 50%;
+    .transition(opacity 0.20s ease-in-out);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  } 
+
+  &:hover::after { opacity: 1; }
+  &:active::after { 
+    background-color: #222;
+    box-shadow: none;
+    left: -14px;
+    top: -14px;
+  }
+}
+
 ul {
   padding: 0;
   margin: 0;
