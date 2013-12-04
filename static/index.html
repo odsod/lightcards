@@ -8,10 +8,20 @@
 </head>
 <body>
 
-  <h1 data-bind="
-    text: hanzi,
-    css: { 'toggle-animation': animationToggle }
-  "></h1>
+  <ul data-bind="foreach: hanziStuff, css: { 'toggle-animation': animationToggle }">
+    <li>
+      <h2 data-bind="with: pinyin">
+        <span data-bind="
+          text: text,
+          css: textStyle
+        "></span><span data-bind="
+          text: tone,
+          css: toneStyle
+        "></span>
+      </h2>
+      <h1 data-bind="text: hanzi"></h1>
+    </li>
+  </ul>
 
   <form data-bind="submit: checkIfInputIsCorrect">
     <input data-bind="

@@ -29,18 +29,29 @@ body {
 }
 
 h1 {
-  font-size: 12em;
+  font-size: 220px;
+  line-height: 220px;
+  margin: 0;
   color: #111;
   font-weight: 400;
 }
 
+h2 {
+  font-size: 30px;
+  line-height: 30px;
+  margin: 60px 0 30px 0;
+  color: #333;
+  font-weight: 200;
+}
+
 input {
-  font-size: 4em;
+  font-size: 60px;
+  line-height: 60px;
   font-weight: 200;
   color: #222;
   text-align: center;
   // Unstyle it
-  margin: 0;
+  margin: 30px 0;
   padding: 0;
   display: block;
   width: 100%;
@@ -49,9 +60,11 @@ input {
 }
 
 p {
-  font-size: 1.5em;
+  font-size: 30px;
+  line-height: 30px;
   font-weight: 200;
   color: #333;
+  margin: 0;
 }
 
 /* Animation and toggle */
@@ -61,6 +74,23 @@ input {
   &.show-placeholder {
     .placeholder(#ccc);
   }
+}
+
+.hide {
+  color: rgba(0, 0, 0, 0);
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
+}
+
+.underline {
+  color: rgba(0, 0, 0, 0);
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
+  border-bottom-color: black;
+  .transition(border-bottom-color 0.75s ease);
+}
+
+.show {
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
+  .transition(color 0.75s ease);
 }
 
 p {
@@ -97,4 +127,16 @@ h1 {
   .animation-fill-mode(both);
   .animation-timing-function(ease);
   .animation-name(fade-in-down);
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+  list-style-type: none;
+}
+
+li {
+  display: block;
+  float: left;
 }
