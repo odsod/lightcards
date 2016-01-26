@@ -3,15 +3,27 @@ lightcards
 
 <img align="center" src="http://odsod.github.io/lightcards/preview.png">
 
-`Lightcards` is a minimalistic flash card software for learning Chinese characters. 
+`lightcards` is a minimalistic flash card software for learning Chinese characters. 
 
 Getting started
 ---------------
 
-    npm install -g lightcards
-    lightcards init
-    cd lightcards && lightcards
+~~~sh
+$ npm install -g lightcards
+    
+$ lightcards init
+File vocabulary.txt created.
 
+$ lightcards < vocabulary.txt
+
+Reading vocabulary from stdin... OK!
+Generating flashcards... OK!
+Compiling scripts... OK!
+Starting local web server... OK!
+
+Start learning on http://localhost:3000
+~~~
+    
 Have fun!
 
 Todo
@@ -23,4 +35,4 @@ Todo
 
 [x] Randomize cards using a spaced repetition algorithm
 
-[ ] Add support for pronounciation mp3:s
+[x] Add support for pronounciation mp3:s
