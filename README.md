@@ -26,6 +26,15 @@ Start learning on http://localhost:3000
     
 Have fun!
 
+Hotkeys
+-------
+
+| Key | Action                |
+|:---:|-----------------------|
+| ↵   | Check current answer  |
+| ↓   | Get hint              |
+| ↓↓  | Reveal correct answer |
+
 Todo
 ----
 
